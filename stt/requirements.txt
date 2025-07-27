@@ -1,0 +1,13 @@
+# faster-whisper with the CTranslate2 CUDA backend
+faster-whisper[cuda]==0.9.0
+
+# whisper’s Python helpers (for language codes, etc)
+openai-whisper==20230314
+
+# Web API
+fastapi
+uvicorn[standard]
+pydantic
+
+# WAV I/O
+soundfile

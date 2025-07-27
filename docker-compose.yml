@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  downloader:
+    build: ./downloader
+    volumes: ["data:/data"]
+    ports: ["8000:8000"]
+
+  stt:
+    build: ./stt
+    volumes: ["data:/data"]
+    ports: ["8001:8001"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  translate:
+    build: ./translate
+    volumes: ["data:/data"]
+    ports: ["8002:8002"]
+
+  tts:
+    build: ./tts
+    volumes: ["data:/data"]
+    ports: ["8003:8003"]
+     # expose NVIDIA GPU to this container
+    gpus: all
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+        reservations:
+          memory: 2G
+    environment:
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+    restart: unless-stopped
+
+
+  pipeline:
+    build: ./pipeline
+    ports:
+      - "8004:8004"        # host port 8004 → container 8004
+    volumes:
+      - data:/data
+    depends_on:
+      - downloader
+      - stt
+      - translate
+      - tts
+
+volumes:
+  data:

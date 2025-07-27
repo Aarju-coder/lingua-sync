@@ -1,0 +1,22 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+# ── DL stack ────────────────────────────────────────────────
+torch==2.1.2          # ← no “+cpu”
+torchaudio==2.1.2     # ← no “+cpu”
+
+# ── OpenVoice pins (NumPy-1.x ABI) ──────────────────────────
+numpy==1.22.0
+scipy==1.9.3
+librosa==0.9.1
+soundfile
+
+# ── Voice-cloning & STT ─────────────────────────────────────
+myshell-openvoice @ git+https://github.com/myshell-ai/OpenVoice.git
+faster-whisper==0.9.0
+
+# ──MeloTTS for dynamic styles ──────
+git+https://github.com/myshell-ai/MeloTTS.git
+unidic                   # tiny dictionary for JP/KR tokeniser
+
+# ── API stack ───────────────────────────────────────────────
+fastapi
+uvicorn
